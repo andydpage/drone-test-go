@@ -21,7 +21,7 @@ steps:
   settings:
     repo: hello/world
     tags: latest
-    dry_run:true
+    dry_run: true
   
 services:
 - name: redis
