@@ -23,8 +23,8 @@ steps:
   commands:
   - npm install
   - npm run test
-   depends_on:
-   - backend
+  depends_on:
+  - backend
 
 - name: publish
   image: plugins/docker
