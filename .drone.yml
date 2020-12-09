@@ -19,3 +19,10 @@ steps:
 services:
 - name: redis
   image: redis
+
+- name: publish
+  image: plugins/docker
+  settings:
+    repo: hello/world
+    tags: latest
+    dry_run: true
