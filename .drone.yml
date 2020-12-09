@@ -39,3 +39,46 @@ steps:
 services:
 - name: redis
   image: redis
+  
+---
+kind: pipeline
+type: docker
+name: default-2
+
+steps:
+- name: backend
+  image: golang
+  commands:
+  - go build
+  - go test
+
+- name: frontend-1
+  image: node
+  commands:
+  - npm install
+  - npm run test
+  depends_on:
+  - backend
+
+- name: frontend-2
+  image: node
+  commands:
+  - npm install
+  - npm run test
+  depends_on:
+  - backend
+
+- name: publish
+  image: plugins/docker
+  settings:
+    repo: hello/world
+    tags: latest
+    dry_run: true
+  depends_on:
+  - frontend-1
+  - frontend-2
+
+services:
+- name: redis
+  image: redis
+
