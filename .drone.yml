@@ -10,15 +10,21 @@ steps:
   - go build
   - go test
   
-- name: frontend
+- name: frontend-1
   image: node
   commands:
   - npm install
   - npm run test
+  depends_on:
+  - backend
 
-services:
-- name: redis
-  image: redis
+- name: frontend-2
+  image: node
+  commands:
+  - npm install
+  - npm run test
+  depends_on:
+  - backend
 
 - name: publish
   image: plugins/docker
@@ -26,3 +32,12 @@ services:
     repo: hello/world
     tags: latest
     dry_run: true
+  depends_on:
+  - frontend-1
+  - frontend-2
+
+services:
+- name: redis
+  image: redis
+
+
